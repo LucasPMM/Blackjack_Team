@@ -1,10 +1,28 @@
 #include "stdio.h"
 #include "../includes/core.h"
-#include "../includes/grafo.h"
 #include <stdlib.h>
 #include <string.h>
 
 #define SIZE 500
+
+void makeInstructions(Time *t) {
+    int i;
+    for (i = 0; i < t->I; i++) {
+        switch (t->instructionsCode[i]) {
+            case 0: // SWAP
+                break;
+
+            case 1: // COMMANDER
+                break;
+
+            case 2: // MEETING
+                break;
+            
+            default:
+                break;
+        }
+    }
+}
 
 void makeEmptyArrInt(int *arr, int tam) {
     int i;
@@ -115,7 +133,7 @@ void initProgram(FILE *file) {
     makeEmptyGraph(&t, N, M, I, ages, edges, instructions, S_C_M_instruction);
 
     // Executa as instruções:
-
+    makeInstructions(&t);
 
     // Liberação de memória
     freeGraph(&t);
