@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "../includes/core.h"
+#include "../includes/grafo.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -45,7 +46,6 @@ void printAllInformations(int N, int M, int I, int *ages, int *edges, int *instr
         }
         printf("\n");
     }
-
 }
 
 void initProgram(FILE *file) {
@@ -69,14 +69,17 @@ void initProgram(FILE *file) {
         while (info != NULL) {
             if (charCtrl == 0) { // Número de pessoas na equipe (Vertices)
                 N = atoi(info);
+                if (!N) { return; }
                 ages = (int*)calloc(N, sizeof(int));
             }
             else if (charCtrl == 1) { // Número de relações (Arestas)
                 M = atoi(info);
+                if (!M) { return; }
                 edges = (int*)calloc((M * 2), sizeof(int));
             }
             else if (charCtrl == 2) { // Número de instruções (SWAP - COMMANDER -MEETING)
                 I = atoi(info);
+                if (!I) { return; }
                 instructions = (int*)malloc(I * sizeof(int));
             }
             else if (charCtrl > 2 && charCtrl <= 2 + N) { // Idades dos N membros
@@ -103,8 +106,19 @@ void initProgram(FILE *file) {
 
     }
 
-    printAllInformations(N, M, I, ages, edges, instructions, S_C_M_instruction);
+    // printAllInformations(N, M, I, ages, edges, instructions, S_C_M_instruction);
 
+    // --------------------------------------------------------------------------------------------------------------- // 
+
+    Time t;
+    // Criação do grafo e inserção das informações coletadas acima
+    makeEmptyGraph(&t, N, M, I, ages, edges, instructions, S_C_M_instruction);
+
+    // Executa as instruções:
+
+
+    // Liberação de memória
+    freeGraph(&t);
     free(info);
     free(ages);
     free(edges);
