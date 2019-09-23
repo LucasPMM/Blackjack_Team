@@ -79,7 +79,7 @@ void insertEdges(Time *t) {
     for (i = 0; i < t->M * 2; i += 2) {
         int origin = t->edgesArr[i] - 1;
         int destiny = t->edgesArr[i + 1] - 1;
-        addItem(&t->edges[origin], destiny);
+        addItemEnd(&t->edges[origin], destiny);
     }
 }
 

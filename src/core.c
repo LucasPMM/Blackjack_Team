@@ -5,18 +5,56 @@
 
 #define SIZE 500
 
+// Retorna -1 caso não encontre o commander e a idade caso contrário
+int commander(Time *t, int edge) {
+    return -1;
+}
+
+// Retorna 1 caso um ciclo ocorra e 0 caso o SWAP seja bem sucedido
+int swap(Time *t, int edge1, int edge2) {
+    return 0;
+}
+
+Lista meeting(Time *t) {
+    Lista l;
+    return l;
+}
+
 void makeInstructions(Time *t) {
-    int i;
+    int i, instructionsCtrl = 0;
     for (i = 0; i < t->I; i++) {
         switch (t->instructionsCode[i]) {
-            case 0: // SWAP
+            case 0: { // SWAP
+                // Realiza a operação de SWAP.
+                // Se gerar ciclo realiza a operação de SWAP novamente.
+                // Verificação de ciclo com DFS: caso a visita ocorra em um vertice previamente visitado tem um ciclo.
+                if (swap(t, t->instructionsDecode[instructionsCtrl] - 1, t->instructionsDecode[instructionsCtrl + 1] - 1)) {
+                    swap(t, t->instructionsDecode[instructionsCtrl] - 1, t->instructionsDecode[instructionsCtrl + 1] - 1);
+                    printf("S N\n");
+                }
+                else { printf("S T\n"); }
+                instructionsCtrl += 2;
                 break;
+            } 
 
-            case 1: // COMMANDER
+            case 1: { // COMMANDER
+                // Rodar a DFS e encontrar o vertice com a menonr idade que alcança o vértice desejado.
+                int boss = commander(t, t->instructionsDecode[instructionsCtrl] - 1);
+                if (boss != -1) { printf("C %d\n", boss); }
+                else { printf("C *\n"); }
+                instructionsCtrl++;
                 break;
+            }
 
-            case 2: // MEETING
+            case 2: { // MEETING
+                // Rodar DFS e guardar os tempos de término
+                // Quando um vértice terminar, o mesmo é inserido na primeira posição da lista encadeada
+                // A lista gerada será um DAG
+                Lista l;
+                l = meeting(t);
+                printList(&l);
                 break;
+            }
             
             default:
                 break;
