@@ -4,12 +4,12 @@
 #include <string.h>
 
 int main(int argc, char const *argv[]) {
-	if (argc != 2) /* argc should be 2 for ./tp1 and filename.txt */ {
-        printf("usage: %s is provided,filename is not provided", argv[0]);
+	if (argc != 2) /* argc deve ser igual a 2 para ./tp1 e filename.txt */ {
+        printf("Erro", argv[0]);
 	} else {
         FILE *file = fopen(argv[1], "r");
         if (!file) {
-            printf( "Could not open file\n");
+            printf( "Não foi possível abrir o arquivo!\n");
         }
         else  {
 			initProgram(file);

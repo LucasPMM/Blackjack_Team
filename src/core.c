@@ -220,20 +220,20 @@ void printAllInformations(int N, int M, int I, int *ages, int *edges, int *instr
 }
 
 void initProgram(FILE *file) {
-    // Control variables to extract info:
+    // Variaveis de controle para extração da informação:
     int x, line = 1;
     char linhaAlfanumerica[SIZE], dados[SIZE], *info;
     int charCtrl = 0, edgeCtrl = 0, instrCtrl1 = 0, instrCtrl2 = 0;
 
-    // Variables to represente the info extracted:
+    // Variaveis que representam a informação extraida:
     int N, M, I, *ages, *edges, *instructions, S_C_M_instruction[SIZE];
-    // For instructions:
+    // Decodificação das instruções:
     // 0 = S --- 1 = C --- 2 = M
 
-    // Initialize arrays with -1 and "*" to represente an empty position
+    // Inicializando o array com -1 and "*" para representar as posições vazias
     makeEmptyArrInt(S_C_M_instruction, SIZE);
 
-    // Extract Informations:
+    // Extração de informações:
 
     while(fscanf(file, "%s", linhaAlfanumerica) != EOF) {
         info = strtok(linhaAlfanumerica, " ");
