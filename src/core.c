@@ -2,6 +2,7 @@
 #include "../includes/core.h"
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 
 #define SIZE 500
 
@@ -34,8 +35,22 @@ int checkCicle(Time *t, int position, int *visitedCtrl) {
 
 
 // Retorna a idade do chefe mais novo ou -1 caso o vértice não tenha nenhum chefe
-int findBoss() {
-    return -1;
+int findBoss(Time *t, int position, int *visitedCtrl, int underAge) {
+    // Encontra a menor idade do item presente no componente fortemente conectado em questão:
+
+    Item *item = t->edges[position].inicio->prox;   
+
+    visitedCtrl[position] = 1;
+    // Implementação recursiva da uma DFS
+    while (item != NULL) {
+	    if (!visitedCtrl[item->item]) {
+            if (underAge > t->ages[item->item]) { underAge = t->ages[item->item]; }
+            return findBoss(t, item->item, visitedCtrl, underAge);
+        }
+        item = item->prox;
+    }
+    visitedCtrl[position] = 2;
+    return underAge;
 }
 
 // Retorna -1 caso não encontre o commander e a idade caso contrário
@@ -51,9 +66,11 @@ int commander(Time *t, int edge) {
 
     Time t2;
     makeEmptyGraph(&t2, t->N, t->M, t->I, t->ages, inversedEdges, t->instructionsCode, t->instructionsDecode);
-    printGraph(&t2);
 
-    return findBoss();
+    int *visitedCtrl;
+    visitedCtrl = (int*) calloc(t->N, sizeof(int));
+    int youngestBoss = findBoss(&t2, edge, visitedCtrl, INT_MAX);
+    return youngestBoss == INT_MAX ? -1 : youngestBoss;
 }
 
 // Retorna 1 caso um ciclo ocorra ou não seja possível fazer o SWAP e 0 caso o SWAP seja bem sucedido
