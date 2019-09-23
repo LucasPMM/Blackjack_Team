@@ -5,13 +5,58 @@
 
 #define SIZE 500
 
+// Retorna 1 caso tenha um ciclo no grafo e 0 caso contrário
+// Quando chegamos no node e estamos ainda estamos processando ele é marcado como 1
+// Quando o seu processamento acaba marcamos ele com 2,
+int checkCicle(Time *t, int position, int *visitedCtrl) {
+    Item *item = t->edges[position].inicio->prox;   
+    visitedCtrl[position] = 1;
+    // Implementação recursiva da uma DFS
+    while (item != NULL) {
+	    if (visitedCtrl[item->item] == 1 || checkCicle(t, item->item, visitedCtrl)) {
+            return 1; 
+        }
+        item = item->prox;
+    }
+    visitedCtrl[position] = 2;
+    return 0;
+}
+
 // Retorna -1 caso não encontre o commander e a idade caso contrário
 int commander(Time *t, int edge) {
     return -1;
 }
 
-// Retorna 1 caso um ciclo ocorra e 0 caso o SWAP seja bem sucedido
+// Retorna 1 caso um ciclo ocorra ou não seja possível fazer o SWAP e 0 caso o SWAP seja bem sucedido
 int swap(Time *t, int edge1, int edge2) {
+    int v1 = edge1, v2 = edge2;
+    // Tenta encontrar uma aresta da edge1 para a edge2. Caso não encontre, tenta encontrar uma areseta da edge2 para a edge1
+    Item *item = findItem(&t->edges[v1], v2);
+    if (item == NULL) {
+        Item *item = findItem(&t->edges[v2], v1);
+        if (item == NULL) {
+            return 1;
+        } else { v1 = v2; v2 = v1; }
+    }
+
+    // Remove a aresta que liga v1 a v2
+    removeItemPosition(&t->edges[v1], item);
+    // Adicionar a aresta que liga v2 a v1
+    addItemEnd(&t->edges[v2], v1);
+
+    // Caso ocorra um ciclo o SWAP é desfeito
+    int i, *visitedCtrl;
+    visitedCtrl = (int*) calloc(t->N, sizeof(int));
+
+    for (i = 0; i < t->N; i++) {
+        if (visitedCtrl[i] == 0 && checkCicle(t, i, visitedCtrl)) {
+            // Remover a aresta v2 que acabou de ser adicionada no final da lista de adjacências de v1
+            removeItemEnd(&t->edges[v1]);
+            // Adicionar novamente a aresta que liga v1 a v2
+            addItemEnd(&t->edges[v1], v2);
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -29,7 +74,6 @@ void makeInstructions(Time *t) {
                 // Se gerar ciclo realiza a operação de SWAP novamente.
                 // Verificação de ciclo com DFS: caso a visita ocorra em um vertice previamente visitado tem um ciclo.
                 if (swap(t, t->instructionsDecode[instructionsCtrl] - 1, t->instructionsDecode[instructionsCtrl + 1] - 1)) {
-                    swap(t, t->instructionsDecode[instructionsCtrl] - 1, t->instructionsDecode[instructionsCtrl + 1] - 1);
                     printf("S N\n");
                 }
                 else { printf("S T\n"); }

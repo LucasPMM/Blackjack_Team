@@ -32,7 +32,7 @@ void makeEmptyGraph(Time *t, int N, int M, int I, int *ages, int *edges, int *in
     copyArr(S_C_M_instruction, t->instructionsDecode, SIZE);
 
     insertEdges(t);
-    printGraph(t);
+    // printGraph(t);
 }
 
 void printGraph(Time *t) {
@@ -68,6 +68,8 @@ void printGraph(Time *t) {
         }
         printf("\n");
     }
+
+    printf("\nArestas (+1):\n");
     for (i = 0; i < t->N; i++){
         printf("Vértice %d:\n", i + 1);
         printList(&t->edges[i]);
