@@ -44,22 +44,6 @@ void addItemEnd(Lista *l, int item) {
     l->fim->prox = NULL;
 }
 
-void addItemPosition(Lista *l, Item *itemPointer, int item) {
-    Item *new = (Item*) malloc(sizeof(Item));
-    new->item = item;
-    new->prox = itemPointer->prox;
-    itemPointer->prox = new;
-    if(itemPointer == l->fim) { l->fim = new; }
-}
-
-int removeItemStart(Lista *l) {
-    if (isListEmpty(l)) { return 0; }
-    Item *item = l->inicio;
-    l->inicio = l->inicio->prox;
-    free(item);
-    return 1;
-}
-
 int removeItemEnd(Lista *l) {
     if (isListEmpty(l)) { return 0; }
     Item *item = l->inicio;
