@@ -70,6 +70,8 @@ int commander(Time *t, int edge) {
     int *visitedCtrl;
     visitedCtrl = (int*) calloc(t->N, sizeof(int));
     int youngestBoss = findBoss(&t2, edge, visitedCtrl, INT_MAX);
+    free(inversedEdges);
+    free(visitedCtrl);
     return youngestBoss == INT_MAX ? -1 : youngestBoss;
 }
 
@@ -105,6 +107,7 @@ int swap(Time *t, int edge1, int edge2) {
     }
     // Atualizar o vetor de arestas
     updateEdgesArr(t, v1 + 1, v2 + 1);
+    free(visitedCtrl);
     return 0;
 }
 
@@ -164,6 +167,7 @@ void makeInstructions(Time *t) {
 
                 printf("M ");
                 printList(&l);
+                free(visitedCtrl);
                 break;
             }
             
