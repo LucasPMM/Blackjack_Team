@@ -11,7 +11,7 @@ int commander(Time *t, int edge);
 // #5)
 int swap(Time *t, int edge1, int edge2);
 // #6)
-void meeting(Time *t, Lista *l, int *visitedCtrl, int position);
+void meeting(Time *t, Pilha *p, int *visitedCtrl, int position);
 // #7)
 void makeInstructions(Time *t);
 // #8)

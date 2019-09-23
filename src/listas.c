@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-int isListEmpty(Lista *l) { return (l->inicio == l->fim); }
+int emptyList(Lista *l) { return (l->inicio == l->fim); }
 
 void makeEmptyList(Lista *l) {
     l->inicio = (Item*) malloc(sizeof(Item));
@@ -29,14 +29,6 @@ void freeList(Lista *l) {
     }
 }
 
-void addItemStart(Lista *l, int item) {
-    Item *new;
-    new = (Item*) malloc(sizeof(Item));
-    l->inicio->item = item;
-    new->prox = l->inicio;
-    l->inicio = new;
-}
-
 void addItemEnd(Lista *l, int item) {
     l->fim->prox = (Item*) malloc(sizeof(Item));
     l->fim = l->fim->prox;
@@ -45,7 +37,7 @@ void addItemEnd(Lista *l, int item) {
 }
 
 int removeItemEnd(Lista *l) {
-    if (isListEmpty(l)) { return 0; }
+    if (emptyList(l)) { return 0; }
     Item *item = l->inicio;
     while(item->prox != l->fim){ item = item->prox; }
     l->fim = item;
@@ -77,5 +69,43 @@ Item *findItem(Lista *l, int itemToFind) {
     return NULL;
 }
 
+int stackSize (Pilha *p) { return p->tamanho; }
 
-// Funções desenvolvidas com base no material da matéria de Estrutura de dados.
+int emptyStack (Pilha *p) { return p->topo == p->fundo; }
+
+void makeEmptyStack (Pilha *p) {
+    p->topo = (Item*) malloc(sizeof(Item));
+    p->fundo = p->topo;
+    p->topo->prox = NULL;
+    p->tamanho = 0;
+}
+
+void pushStack (int item, Pilha *p) {
+    Item *new;
+    new = (Item*) malloc(sizeof(Item));
+    p->topo->item = item;
+    new->prox = p->topo;
+    p->topo = new;
+    p->tamanho++;
+}
+
+void printStack(Pilha *p) {
+    Item *item = p->topo->prox;
+    while (item != NULL) {
+        printf("%d ", item->item + 1);
+        item = item->prox;
+    }
+    printf("\n");
+}
+
+void freeStack(Pilha *p) {
+    Item *item = p->topo;
+    while (item != NULL) {
+        p->topo = item->prox;
+        free(item);
+        item = p->topo;
+    }
+}
+
+
+// Funções desenvolvidas de acordo com o material da disciplina de Estrutura de Dados

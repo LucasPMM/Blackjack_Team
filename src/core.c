@@ -1,4 +1,4 @@
-#include "stdio.h"
+#include <stdio.h>
 #include "../includes/core.h"
 #include <stdlib.h>
 #include <string.h>
@@ -111,19 +111,19 @@ int swap(Time *t, int edge1, int edge2) {
     return 0;
 }
 
-void meeting(Time *t, Lista *l, int *visitedCtrl, int position) {
+void meeting(Time *t, Pilha *p, int *visitedCtrl, int position) {
     // Faz uma DFS a partir do vértice inicial e armazena na lista, com o uma ideia de fila, o vértices quando os mesmos terminarem
     Item *item = t->edges[position].inicio->prox;   
     visitedCtrl[position] = 1;
     // Implementação recursiva da uma DFS
     while (item != NULL) {
 	    if (!visitedCtrl[item->item]) {
-            meeting(t, l, visitedCtrl, item->item);
+            meeting(t, p, visitedCtrl, item->item);
         }
         item = item->prox;
     }
     visitedCtrl[position] = 2;
-    addItemStart(l, position);
+    pushStack(position, p);
 }
 
 void makeInstructions(Time *t) {
@@ -153,20 +153,21 @@ void makeInstructions(Time *t) {
 
             case 2: { // MEETING
                 // Rodar DFS e guardar os tempos de término
-                // Quando um vértice terminar, o mesmo é inserido na primeira posição da lista encadeada
+                // Quando um vértice terminar, o mesmo é inserido em uma pilha
                 // A lista gerada será um DAG e, por conseguinte, a ordem de fala dos membros do time
-                Lista l;
+                Pilha p;
                 int i, *visitedCtrl;
                 visitedCtrl = (int*) calloc(t->N, sizeof(int));
-                makeEmptyList(&l);
+                makeEmptyStack(&p);
                 for (i = 0; i < t->N; i++) {
                     if (visitedCtrl[i] == 0) {
-                        meeting(t, &l, visitedCtrl, i);
+                        meeting(t, &p, visitedCtrl, i);
                     }
                 }
 
                 printf("M ");
-                printList(&l);
+                printStack(&p);
+                freeStack(&p);
                 free(visitedCtrl);
                 break;
             }

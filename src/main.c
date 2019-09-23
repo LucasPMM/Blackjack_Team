@@ -5,7 +5,7 @@
 
 int main(int argc, char const *argv[]) {
 	if (argc != 2) /* argc deve ser igual a 2 para ./tp1 e filename.txt */ {
-        printf("Erro", argv[0]);
+        printf("Erro %s", argv[0]);
 	} else {
         FILE *file = fopen(argv[1], "r");
         if (!file) {
