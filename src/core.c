@@ -108,9 +108,19 @@ int swap(Time *t, int edge1, int edge2) {
     return 0;
 }
 
-Lista meeting(Time *t) {
-    Lista l;
-    return l;
+void meeting(Time *t, Lista *l, int *visitedCtrl, int position) {
+    // Faz uma DFS a partir do vértice inicial e armazena na lista, com o uma ideia de fila, o vértices quando os mesmos terminarem
+    Item *item = t->edges[position].inicio->prox;   
+    visitedCtrl[position] = 1;
+    // Implementação recursiva da uma DFS
+    while (item != NULL) {
+	    if (!visitedCtrl[item->item]) {
+            meeting(t, l, visitedCtrl, item->item);
+        }
+        item = item->prox;
+    }
+    visitedCtrl[position] = 2;
+    addItemStart(l, position);
 }
 
 void makeInstructions(Time *t) {
@@ -141,10 +151,19 @@ void makeInstructions(Time *t) {
             case 2: { // MEETING
                 // Rodar DFS e guardar os tempos de término
                 // Quando um vértice terminar, o mesmo é inserido na primeira posição da lista encadeada
-                // A lista gerada será um DAG
+                // A lista gerada será um DAG e, por conseguinte, a ordem de fala dos membros do time
                 Lista l;
-                l = meeting(t);
-                // printList(&l);
+                int i, *visitedCtrl;
+                visitedCtrl = (int*) calloc(t->N, sizeof(int));
+                makeEmptyList(&l);
+                for (i = 0; i < t->N; i++) {
+                    if (visitedCtrl[i] == 0) {
+                        meeting(t, &l, visitedCtrl, i);
+                    }
+                }
+
+                printf("M ");
+                printList(&l);
                 break;
             }
             
