@@ -5,6 +5,16 @@
 
 #define SIZE 500
 
+void updateEdgesArr(Time *t, int edge1, int edge2) {
+    int i;
+    for (i = 0; i < t->M * 2; i += 2) {
+        if (t->edgesArr[i] == edge1 && t->edgesArr[i + 1] == edge2) {
+            t->edgesArr[i] = edge2;
+            t->edgesArr[i + 1] = edge1;
+        }
+    }
+}
+
 // Retorna 1 caso tenha um ciclo no grafo e 0 caso contrário
 // Quando chegamos no node e estamos ainda estamos processando ele é marcado como 1
 // Quando o seu processamento acaba marcamos ele com 2,
@@ -22,9 +32,28 @@ int checkCicle(Time *t, int position, int *visitedCtrl) {
     return 0;
 }
 
+
+// Retorna a idade do chefe mais novo ou -1 caso o vértice não tenha nenhum chefe
+int findBoss() {
+    return -1;
+}
+
 // Retorna -1 caso não encontre o commander e a idade caso contrário
 int commander(Time *t, int edge) {
-    return -1;
+    // Gerar um grafo t2 que tenha as arestas invertidas em relação a t1 (transformar comandados em comandantes e vice versa)
+    // Rodar um DFS a partir do vértice V e achar o "chefe mais novo que ele comanda"
+    int *inversedEdges, i;
+    inversedEdges = (int*) calloc(t->M * 2, sizeof(int));
+
+    for(i = 0; i < t->M * 2; i++) {
+        inversedEdges[i] = t->edgesArr[t->M * 2 - i - 1];
+    }
+
+    Time t2;
+    makeEmptyGraph(&t2, t->N, t->M, t->I, t->ages, inversedEdges, t->instructionsCode, t->instructionsDecode);
+    printGraph(&t2);
+
+    return findBoss();
 }
 
 // Retorna 1 caso um ciclo ocorra ou não seja possível fazer o SWAP e 0 caso o SWAP seja bem sucedido
@@ -52,11 +81,13 @@ int swap(Time *t, int edge1, int edge2) {
         if (visitedCtrl[i] == 0 && checkCicle(t, i, visitedCtrl)) {
             // Remover a aresta v2 que acabou de ser adicionada no final da lista de adjacências de v1
             removeItemEnd(&t->edges[v1]);
-            // Adicionar novamente a aresta que liga v1 a v2
+            // Adicionar novamente a aresta que liga v1 a v2 (não importa a posição)
             addItemEnd(&t->edges[v1], v2);
             return 1;
         }
     }
+    // Atualizar o vetor de arestas
+    updateEdgesArr(t, v1 + 1, v2 + 1);
     return 0;
 }
 
@@ -82,7 +113,7 @@ void makeInstructions(Time *t) {
             } 
 
             case 1: { // COMMANDER
-                // Rodar a DFS e encontrar o vertice com a menonr idade que alcança o vértice desejado.
+                // Rodar a DFS e encontrar o vertice com a menor idade que alcança o vértice desejado.
                 int boss = commander(t, t->instructionsDecode[instructionsCtrl] - 1);
                 if (boss != -1) { printf("C %d\n", boss); }
                 else { printf("C *\n"); }
