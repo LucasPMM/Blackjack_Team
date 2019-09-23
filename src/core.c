@@ -52,7 +52,7 @@ void makeInstructions(Time *t) {
                 // A lista gerada será um DAG
                 Lista l;
                 l = meeting(t);
-                printList(&l);
+                // printList(&l);
                 break;
             }
             
