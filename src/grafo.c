@@ -37,7 +37,7 @@ void makeEmptyGraph(Time *t, int N, int M, int I, int *ages, int *edges, int *in
 
 void printGraph(Time *t) {
     int i, j = 0;
-
+    printf("\n\n//---------------------------------------------------------------//\n\n");
     printf("\nTotal de integrantes: %d", t->N);
     printf("\nTotal de relações: %d", t->M);
     printf("\nTotal de instruções: %d\n", t->I);
@@ -74,6 +74,7 @@ void printGraph(Time *t) {
         printf("Vértice %d:\n", i + 1);
         printList(&t->edges[i]);
     }
+    printf("\n\n//---------------------------------------------------------------//\n\n");
 }
 
 void insertEdges(Time *t) {

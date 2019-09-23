@@ -98,8 +98,8 @@ int swap(Time *t, int edge1, int edge2) {
 
     for (i = 0; i < t->N; i++) {
         if (visitedCtrl[i] == 0 && checkCicle(t, i, visitedCtrl)) {
-            // Remover a aresta v2 que acabou de ser adicionada no final da lista de adjacências de v1
-            removeItemEnd(&t->edges[v1]);
+            // Remover a aresta que acabou de ser adicionada no final da lista de adjacências de v2
+            removeItemEnd(&t->edges[v2]);
             // Adicionar novamente a aresta que liga v1 a v2 (não importa a posição)
             addItemEnd(&t->edges[v1], v2);
             return 1;
