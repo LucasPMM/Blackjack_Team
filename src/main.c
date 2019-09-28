@@ -6,7 +6,7 @@
 
 int main(int argc, char const *argv[]) {
 	if (argc != 2) /* argc deve ser igual a 2 para ./tp1 e filename.txt */ {
-        printf("Erro %s", argv[0]);
+        printf("Insira o nome do arquivo como parâmetro");
 	} else {
         // Código utilizado para a marcação do tempo de execução:
         // int clk = 0;

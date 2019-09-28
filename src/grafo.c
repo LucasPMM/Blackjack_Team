@@ -5,14 +5,14 @@
 
 #define SIZE 500
 
-void copyArr(int *origin, int *destiny, int tam) {
+void copyArr (int *origin, int *destiny, int tam) {
     int i;
     for(i = 0; i < tam; i++) {
         destiny[i] = origin[i];
     }
 }
 
-void makeEmptyGraph(Time *t, int N, int M, int I, int *ages, int *edges, int *instructions, int *S_C_M_instruction) {
+void makeEmptyGraph (Time *t, int N, int M, int I, int *ages, int *edges, int *instructions, int *S_C_M_instruction) {
     int i = 0;
     t->ages = (int*) calloc(N, sizeof(int));
     t->edgesArr = (int*) calloc(M * 2, sizeof(int));
@@ -35,7 +35,7 @@ void makeEmptyGraph(Time *t, int N, int M, int I, int *ages, int *edges, int *in
     // printGraph(t);
 }
 
-void printGraph(Time *t) {
+void printGraph (Time *t) {
     int i, j = 0;
     printf("\n\n//---------------------------------------------------------------//\n\n");
     printf("\nTotal de integrantes: %d", t->N);
@@ -77,7 +77,7 @@ void printGraph(Time *t) {
     printf("\n\n//---------------------------------------------------------------//\n\n");
 }
 
-void insertEdges(Time *t) {
+void insertEdges (Time *t) {
     int i = 0;
     for (i = 0; i < t->M * 2; i += 2) {
         int origin = t->edgesArr[i] - 1;
@@ -86,7 +86,7 @@ void insertEdges(Time *t) {
     }
 }
 
-void freeGraph(Time *t) {
+void freeGraph (Time *t) {
     free(t->ages);
     free(t->instructionsCode);
     freeList(t->edges);

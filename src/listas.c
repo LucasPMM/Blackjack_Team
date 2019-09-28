@@ -3,15 +3,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-int emptyList(Lista *l) { return (l->inicio == l->fim); }
+int emptyList (Lista *l) { return (l->inicio == l->fim); }
 
-void makeEmptyList(Lista *l) {
+void makeEmptyList (Lista *l) {
     l->inicio = (Item*) malloc(sizeof(Item));
     l->fim = l->inicio;
     l->inicio->prox = NULL;
 }
 
-void printList(Lista *l) {
+void printList (Lista *l) {
     Item *item = l->inicio->prox;
     while (item != NULL) {
         printf("%d ", item->item + 1);
@@ -20,7 +20,7 @@ void printList(Lista *l) {
     printf("\n");
 }
 
-void freeList(Lista *l) {
+void freeList (Lista *l) {
     Item *item = l->inicio;
     while (item != NULL) {
         l->inicio = item->prox;
@@ -29,14 +29,14 @@ void freeList(Lista *l) {
     }
 }
 
-void addItemEnd(Lista *l, int item) {
+void addItemEnd (Lista *l, int item) {
     l->fim->prox = (Item*) malloc(sizeof(Item));
     l->fim = l->fim->prox;
     l->fim->item = item;
     l->fim->prox = NULL;
 }
 
-int removeItemEnd(Lista *l) {
+int removeItemEnd (Lista *l) {
     if (emptyList(l)) { return 0; }
     Item *item = l->inicio;
     while(item->prox != l->fim){ item = item->prox; }
@@ -47,7 +47,7 @@ int removeItemEnd(Lista *l) {
     return 1;
 }
 
-void removeItemPosition(Lista *l, Item *itemToRemove){  
+void removeItemPosition (Lista *l, Item *itemToRemove){  
     if (itemToRemove != NULL) {
         Item *item = itemToRemove->prox;
         if (item == l->fim)
@@ -58,7 +58,7 @@ void removeItemPosition(Lista *l, Item *itemToRemove){
     }
 }
 
-Item *findItem(Lista *l, int itemToFind) {
+Item *findItem (Lista *l, int itemToFind) {
     Item *item = l->inicio;
     while (item->prox != NULL) {
         if (item->prox->item == itemToFind) {
@@ -68,6 +68,8 @@ Item *findItem(Lista *l, int itemToFind) {
     }
     return NULL;
 }
+
+// ----------- Funções de Pilha ----------- //
 
 int stackSize (Pilha *p) { return p->tamanho; }
 
@@ -89,7 +91,7 @@ void pushStack (int item, Pilha *p) {
     p->tamanho++;
 }
 
-void printStack(Pilha *p) {
+void printStack (Pilha *p) {
     Item *item = p->topo->prox;
     while (item != NULL) {
         printf("%d ", item->item + 1);
@@ -98,7 +100,7 @@ void printStack(Pilha *p) {
     printf("\n");
 }
 
-void freeStack(Pilha *p) {
+void freeStack (Pilha *p) {
     Item *item = p->topo;
     while (item != NULL) {
         p->topo = item->prox;

@@ -6,7 +6,7 @@
 
 #define SIZE 500
 
-void updateEdgesArr(Time *t, int edge1, int edge2) {
+void updateEdgesArr (Time *t, int edge1, int edge2) {
     int i;
     for (i = 0; i < t->M * 2; i += 2) {
         if (t->edgesArr[i] == edge1 && t->edgesArr[i + 1] == edge2) {
@@ -19,7 +19,7 @@ void updateEdgesArr(Time *t, int edge1, int edge2) {
 // Retorna 1 caso tenha um ciclo no grafo e 0 caso contrário
 // Quando chegamos no node e estamos ainda estamos processando ele é marcado como 1
 // Quando o seu processamento acaba marcamos ele com 2,
-int checkCicle(Time *t, int position, int *visitedCtrl) {
+int checkCicle (Time *t, int position, int *visitedCtrl) {
     Item *item = t->edges[position].inicio->prox;   
     visitedCtrl[position] = 1;
     // Implementação recursiva da uma DFS
@@ -35,7 +35,7 @@ int checkCicle(Time *t, int position, int *visitedCtrl) {
 
 
 // Retorna a idade do chefe mais novo ou -1 caso o vértice não tenha nenhum chefe
-int findBoss(Time *t, int position, int *visitedCtrl, int underAge) {
+int findBoss (Time *t, int position, int *visitedCtrl, int underAge) {
     // Encontra a menor idade do item presente no componente fortemente conectado em questão:
 
     Item *item = t->edges[position].inicio->prox;   
@@ -54,7 +54,7 @@ int findBoss(Time *t, int position, int *visitedCtrl, int underAge) {
 }
 
 // Retorna -1 caso não encontre o commander e a idade caso contrário
-int commander(Time *t, int edge) {
+int commander (Time *t, int edge) {
     // Gerar um grafo t2 que tenha as arestas invertidas em relação a t1 (transformar comandados em comandantes e vice versa)
     // Rodar um DFS a partir do vértice V e achar o "chefe mais novo que ele comanda"
     int *inversedEdges, i;
@@ -76,7 +76,7 @@ int commander(Time *t, int edge) {
 }
 
 // Retorna 1 caso um ciclo ocorra ou não seja possível fazer o SWAP e 0 caso o SWAP seja bem sucedido
-int swap(Time *t, int edge1, int edge2) {
+int swap (Time *t, int edge1, int edge2) {
     int v1 = edge1, v2 = edge2;
     // Tenta encontrar uma aresta da edge1 para a edge2. Caso não encontre, tenta encontrar uma areseta da edge2 para a edge1
     Item *item = findItem(&t->edges[v1], v2);
@@ -111,7 +111,7 @@ int swap(Time *t, int edge1, int edge2) {
     return 0;
 }
 
-void meeting(Time *t, Pilha *p, int *visitedCtrl, int position) {
+void meeting (Time *t, Pilha *p, int *visitedCtrl, int position) {
     // Faz uma DFS a partir do vértice inicial e armazena na lista, com o uma ideia de fila, o vértices quando os mesmos terminarem
     Item *item = t->edges[position].inicio->prox;   
     visitedCtrl[position] = 1;
@@ -126,7 +126,7 @@ void meeting(Time *t, Pilha *p, int *visitedCtrl, int position) {
     pushStack(position, p);
 }
 
-void makeInstructions(Time *t) {
+void makeInstructions (Time *t) {
     int i, instructionsCtrl = 0;
     for (i = 0; i < t->I; i++) {
         switch (t->instructionsCode[i]) {
@@ -178,14 +178,14 @@ void makeInstructions(Time *t) {
     }
 }
 
-void makeEmptyArrInt(int *arr, int tam) {
+void makeEmptyArrInt (int *arr, int tam) {
     int i;
     for (i = 0; i < tam; i++) {
         arr[i] = -1;
     }
 }
 
-void printAllInformations(int N, int M, int I, int *ages, int *edges, int *instructions, int *S_C_M_instruction) {
+void printAllInformations (int N, int M, int I, int *ages, int *edges, int *instructions, int *S_C_M_instruction) {
     int i, j = 0;
 
     printf("\nTotal de integrantes: %d", N);
@@ -220,7 +220,7 @@ void printAllInformations(int N, int M, int I, int *ages, int *edges, int *instr
     }
 }
 
-void initProgram(FILE *file) {
+void initProgram (FILE *file) {
     // Variaveis de controle para extração da informação:
     int x, line = 1;
     char linhaAlfanumerica[SIZE], dados[SIZE], *info;
@@ -246,12 +246,12 @@ void initProgram(FILE *file) {
             }
             else if (charCtrl == 1) { // Número de relações (Arestas)
                 M = atoi(info);
-                if (!M) { return; }
+                // if (!M) { return; }
                 edges = (int*)calloc((M * 2), sizeof(int));
             }
             else if (charCtrl == 2) { // Número de instruções (SWAP - COMMANDER -MEETING)
                 I = atoi(info);
-                if (!I) { return; }
+                // if (!I) { return; }
                 instructions = (int*)malloc(I * sizeof(int));
             }
             else if (charCtrl > 2 && charCtrl <= 2 + N) { // Idades dos N membros
